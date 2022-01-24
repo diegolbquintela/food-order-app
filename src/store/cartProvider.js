@@ -11,6 +11,20 @@ const defaultCartState = {
 
 // actions
 const cartReducer = (state, action) => {
+  if (action.type === "GET_MEALS") {
+    return {
+      ...state,
+      transactions: action.payload,
+    };
+  }
+
+  if (action.type === "MEALS_ERROR") {
+    return {
+      ...state,
+      error: action.payload,
+    };
+  }
+
   if (action.type === "ADD_CART_ITEM") {
     const updatedTotalAmount =
       state.totalAmount + action.item.price * action.item.amount;
@@ -81,13 +95,13 @@ const CartProvider = (props) => {
       });
     } catch (err) {
       dispatchCartAction({
-        type: "MEAL_ERROR",
+        type: "MEALS_ERROR",
         payload: err.response.data.error,
       });
     }
   };
 
-  const addItemToCartHandler = (item) => {
+  const addItemToCartHandler = async (item) => {
     dispatchCartAction({ type: "ADD_CART_ITEM", item: item });
   };
 

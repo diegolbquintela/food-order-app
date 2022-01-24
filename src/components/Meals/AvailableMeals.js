@@ -1,5 +1,6 @@
+import { useContext } from "react";
 
-
+import CartContext from "../../store/cart-context";
 import Card from "../UI/Card";
 import MealItem from "./MealItem/MealItem";
 
@@ -33,7 +34,9 @@ const DUMMY_MEALS = [
 ];
 
 const AvailableMeals = () => {
-  const mealsArray = DUMMY_MEALS.map((meal) => (
+  const cartCtx = useContext(CartContext);
+
+  const mealsArray = cartCtx.map((meal) => (
     <MealItem
       id={meal.id}
       key={meal.id}
