@@ -1,6 +1,6 @@
-import { useContext } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-import CartContext from "../../store/cart-context";
 import Card from "../UI/Card";
 import MealItem from "./MealItem/MealItem";
 
@@ -34,12 +34,39 @@ const DUMMY_MEALS = [
 ];
 
 const AvailableMeals = () => {
-  const cartCtx = useContext(CartContext);
+  const [meals, setMeals] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const mealsArray = cartCtx.map((meal) => (
+  const fetchMeals = async () => {
+    setIsLoading(true);
+    const response = await fetch(
+      "https://food-order-react-a8d11-default-rtdb.firebaseio.com/meals.json"
+    );
+
+    console.log(response);
+    const mealsData = await response.json();
+    console.log(mealsData);
+
+    const mealsDataArray = Object.keys(mealsData).map((key) => {
+      console.log(mealsData[key]);
+      return mealsData[key];
+    });
+
+    setMeals(mealsDataArray);
+
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchMeals();
+  }, []);
+
+  const mealsArray = meals.map((meal) => (
     <MealItem
-      id={meal.id}
-      key={meal.id}
+      //id={meal.id} // need fix later
+      id={Math.random() * 100}
+      //key={meal.id}
+      key={Math.random() * 100}
       name={meal.name}
       description={meal.description}
       price={meal.price}

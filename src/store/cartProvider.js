@@ -1,5 +1,4 @@
 import { useReducer } from "react";
-import axios from "axios";
 
 import CartContext from "./cart-context";
 
@@ -11,20 +10,6 @@ const defaultCartState = {
 
 // actions
 const cartReducer = (state, action) => {
-  if (action.type === "GET_MEALS") {
-    return {
-      ...state,
-      transactions: action.payload,
-    };
-  }
-
-  if (action.type === "MEALS_ERROR") {
-    return {
-      ...state,
-      error: action.payload,
-    };
-  }
-
   if (action.type === "ADD_CART_ITEM") {
     const updatedTotalAmount =
       state.totalAmount + action.item.price * action.item.amount;
@@ -83,23 +68,6 @@ const CartProvider = (props) => {
   );
 
   // actions
-  const getMeals = async () => {
-    try {
-      const res = await axios.get(
-        "https://food-order-react-a8d11-default-rtdb.firebaseio.com/"
-      );
-
-      dispatchCartAction({
-        type: "GET_MEALS",
-        payload: res.data.data,
-      });
-    } catch (err) {
-      dispatchCartAction({
-        type: "MEALS_ERROR",
-        payload: err.response.data.error,
-      });
-    }
-  };
 
   const addItemToCartHandler = async (item) => {
     dispatchCartAction({ type: "ADD_CART_ITEM", item: item });
