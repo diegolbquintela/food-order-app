@@ -73,11 +73,13 @@ const AvailableMeals = () => {
     />
   ));
 
+  let content;
+
+  content = isLoading ? <p>loading menu...</p> : <ul>{mealsArray}</ul>;
+
   return (
     <section className={classes.meals}>
-      <Card>
-        <ul>{mealsArray}</ul>
-      </Card>
+      <Card>{content}</Card>
     </section>
   );
 };
