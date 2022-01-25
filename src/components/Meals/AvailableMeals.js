@@ -5,39 +5,14 @@ import MealItem from "./MealItem/MealItem";
 
 import classes from "./AvailableMeals.module.css";
 
-// const DUMMY_MEALS = [
-//   {
-//     id: "m1",
-//     name: "Sushi",
-//     description: "Finest fish and veggies",
-//     price: 22.99,
-//   },
-//   {
-//     id: "m2",
-//     name: "Schnitzel",
-//     description: "A german specialty!",
-//     price: 16.5,
-//   },
-//   {
-//     id: "m3",
-//     name: "Barbecue Burger",
-//     description: "American, raw, meaty",
-//     price: 12.99,
-//   },
-//   {
-//     id: "m4",
-//     name: "Green Bowl",
-//     description: "Healthy...and green...",
-//     price: 18.99,
-//   },
-// ];
-
 const AvailableMeals = () => {
   const [meals, setMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const fetchMeals = async () => {
     setIsLoading(true);
+
     const response = await fetch(
       "https://food-order-react-a8d11-default-rtdb.firebaseio.com/meals.json"
     );
@@ -60,9 +35,15 @@ const AvailableMeals = () => {
   };
 
   useEffect(() => {
-    fetchMeals();
+    try {
+      fetchMeals();
+    } catch (error) {
+      setError(error.message);
+      setIsLoading(false);
+    }
   }, []);
 
+  // mapping fetched menu
   const mealsArray = meals.map((meal) => (
     <MealItem
       id={meal.id}
@@ -75,7 +56,15 @@ const AvailableMeals = () => {
 
   let content;
 
-  content = isLoading ? <p>loading menu...</p> : <ul>{mealsArray}</ul>;
+  // dealing with errors
+  isLoading && !error
+    ? (content = <p>loading menu...</p>)
+    : (content = <ul>{mealsArray}</ul>);
+
+  if (error) {
+    content = <p>something went wrong...</p>;
+    throw new Error(error.message);
+  }
 
   return (
     <section className={classes.meals}>
