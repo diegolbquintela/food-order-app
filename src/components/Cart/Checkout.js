@@ -4,7 +4,7 @@ import classes from "./Checkout.module.css";
 
 // validation helper functions
 const isEmpty = (value) => value.trim() === "";
-const isFiveChars = (value) => value.trim().length !== 5;
+const isFiveChars = (value) => value.trim().length !== 6;
 
 const Checkout = (props) => {
   const [formInputIsValid, setFormInputIsValid] = useState({
@@ -54,6 +54,9 @@ const Checkout = (props) => {
     if (!formIsValid) {
       return;
     }
+
+    // sending data up
+    props.onConfirm(userOrderData);
   };
 
   return (
