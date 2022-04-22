@@ -15,7 +15,6 @@ Demo app live at [Firebase](ttps://food-order-react-a8d11.web.app)
 # Technical Specifications
 
 - React
-- Redux toolkit
 - Context API
 
 ## Instructions
