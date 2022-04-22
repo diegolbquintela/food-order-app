@@ -10,7 +10,7 @@ Mahlzeit is client React App. It shows a menu where the user can add items to th
 
 ## Demo
 
-Demo app live at [Firebase](ttps://food-order-react-a8d11.web.app)
+Demo app live at [Firebase](https://food-order-react-a8d11.web.app)
 
 # Technical Specifications
 
